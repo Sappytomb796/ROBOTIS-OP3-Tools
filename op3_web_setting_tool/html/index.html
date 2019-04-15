@@ -323,15 +323,21 @@
 		  serviceType : 'ball_detector/SaveImage'
 		});
 
-		function callServiceSaveImage(name) {
+		function callServiceSaveImage(nameParam) {
 			var request = new ROSLIB.ServiceRequest({
-				params : name
+				params : nameParam
 			});
 			saveImageParamClient.callService(request, function(result){
-				console.log('Result for service call : save image params' + result)
+				console.log('Result for service call : save image params: ' + result.returns.name);
 			});
 		}
 
+		function saveImage(filename) {
+			var nameParam = {
+				name: filename
+			};
+			callServiceSaveImage(nameParam);
+		}
 		
 		// camera		
 		var setCameraParamClient = new ROSLIB.Service({
