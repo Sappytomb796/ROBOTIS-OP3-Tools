@@ -315,6 +315,29 @@
 				refresh_ball_detector_parameters();
 			});
 		}
+
+		// Ball detector image saving
+		var saveImageParamClient = new ROSLIB.Service({
+		  ros : ros,
+		  name : '/ball_detector_node/save_image',
+		  serviceType : 'ball_detector/SaveImage'
+		});
+
+		function callServiceSaveImage(nameParam) {
+			var request = new ROSLIB.ServiceRequest({
+				params : nameParam
+			});
+			saveImageParamClient.callService(request, function(result){
+				console.log('Result for service call : save image params: ' + result.returns.name);
+			});
+		}
+
+		function saveImage(filename) {
+			var nameParam = {
+				name: filename
+			};
+			callServiceSaveImage(nameParam);
+		}
 		
 		// camera		
 		var setCameraParamClient = new ROSLIB.Service({
