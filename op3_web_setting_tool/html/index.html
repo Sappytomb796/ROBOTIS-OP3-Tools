@@ -213,6 +213,20 @@
 			actionIndex.publish(message);
 			console.log('publish Action Index : ' + action_index);
 		}
+
+		var startReplay = new ROSLIB.Topic({
+			ros: ros,
+			name: '/robotis/replay/',
+			messageType: 'std_msgs/String'
+		});
+
+		function publishStartReplay() {
+			var message = new ROSLIB.Message({
+				data: "start"
+			});
+			startReplay.publish(message);
+			console.log('publish Start Replay');
+		}
 		
 		// ==================================================================
 		// Subscribing to a Topic
@@ -1243,6 +1257,7 @@
 			<li class="tab-link" data-tab="tab-3">Vision</li>
 			<li class="tab-link" data-tab="tab-4">Action</li>
 			<li class="tab-link" data-tab="tab-5">Camera</li>
+			<li class="tab-link" data-tab="tab-6">Replay</li>
 		</ul>
 
 		<div id="tab-1" class="tab-content current">
@@ -1478,6 +1493,9 @@
 			<button type="button" class="action_button" onclick="send_playing_index_action(121)"> Right Kick </button>
 			<button type="button" class="action_button" onclick="send_playing_index_action(120)"> Left Kick </button>
 			<br><br>
+			<button type="button" class="action_button" onclick="send_playing_index_action(31)"> Dab </button>
+			<button type="button" class="action_button" onclick="send_playing_index_action(32)"> Floss </button>
+			<br><br>
 			<label for = "action_index" style="border: 0; color: # f6931f; font-style: italic; font-size: small"> Action Index : </label>
 			<input type = "text" id = "action_index" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
 			<button type="button" onclick="send_playing_action()"> Play Action </button>
@@ -1637,6 +1655,12 @@
 					</td>
 				</tr>
 			</table>
+		</div>
+		<div id="tab-6" class="tab-content">
+			<h4>Replay</h4>
+			
+			<button type="button" class="action_button" onclick="send_start_message()" > Start </button>
+			<br><br>
 		</div>
 	</div>	
 </body>
