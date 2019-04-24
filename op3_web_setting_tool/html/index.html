@@ -338,6 +338,21 @@
 			};
 			callServiceSaveImage(nameParam);
 		}
+
+		// Ball detector detection switching
+		var switchDetectionClient = new ROSLIB.Service({
+		  ros : ros,
+		  name : 'ball_detector_node/switch_detection',
+		  serviceType : 'ball_detector/SwitchDetection'
+		});
+
+		function callServiceSwitchDetection() {
+			var request = new ROSLIB.ServiceRequest();
+			switchDetectionClient.callService(request, function(result){
+				console.log('Result of service call : switch_detection: ' + result.returns)
+			});
+		}
+
 		
 		// camera		
 		var setCameraParamClient = new ROSLIB.Service({
@@ -1450,6 +1465,7 @@
 								</td>
 								<td>							
 									<button type="button" onclick="send_ball_detector_reset()"> Reset parameters </button>
+									<button type="button" onclick="callServiceSwitchDetection()">Load Improved Detection</button>
 								</td>
 							</tr>
 						</table>
