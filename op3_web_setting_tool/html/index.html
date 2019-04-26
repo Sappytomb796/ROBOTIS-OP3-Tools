@@ -349,10 +349,29 @@
 		function callServiceSwitchDetection() {
 			var request = new ROSLIB.ServiceRequest();
 			switchDetectionClient.callService(request, function(result){
-				console.log('Result of service call : switch_detection: ' + result.returns)
+				console.log('Result of service call : switch_detection: ' + result.returns);
+				return result.returns;
 			});
 		}
 
+		var detector_header = document.getElementById("detector_header");
+		var old_detect_elems = document.querySelector("old_detect_elem");
+
+
+		function switchDetection() {
+			var status = callServiceSwitchDetection();
+			if (status === "Improved detection loaded.") {
+				detector_header.innerHTML = "Ball Detector - Improved Detection Loaded";
+				old_detect_elems.display = "none";
+			}
+			else if (status === "Improved detection unloaded.") {
+				detector_header.innerHTML = "Ball Detector";
+				old_detect_elems.display = "block";
+			}
+			else {
+				console.log("Unknown error; neither loaded nor unloaded return for switch detection callback.");
+			}
+		}
 		
 		// camera		
 		var setCameraParamClient = new ROSLIB.Service({
@@ -1465,7 +1484,7 @@
 								</td>
 								<td>							
 									<button type="button" onclick="send_ball_detector_reset()"> Reset parameters </button>
-									<button type="button" onclick="callServiceSwitchDetection()">Load Improved Detection</button>
+									<button type="button" onclick="switchDetection()">Load Improved Detection</button>
 								</td>
 							</tr>
 						</table>
