@@ -362,13 +362,13 @@
 			if (status === "Improved detection loaded.") {
 				detector_header.innerHTML = "Ball Detector - Improved Detection Loaded";
 				for (var i in old_detect_elems) {
-					old_detect_elems[i].display = "none";
+					old_detect_elems[i].style.display = "none";
 				}
 			}
 			else if (status === "Improved detection unloaded.") {
 				detector_header.innerHTML = "Ball Detector";
 				for (var i in old_detect_elems) {
-					old_detect_elems[i].display = "block";
+					old_detect_elems[i].style.display = "inline";
 				}
 			}
 			else {
