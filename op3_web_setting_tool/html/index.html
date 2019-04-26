@@ -1273,7 +1273,7 @@
 		</div>
 
 		<div id="tab-2" class="tab-content">
-			<h4>Ball detector</h4>
+			<h4 id="detector_header">Ball detector</h4>
 			<table border='1'>
 				<tr>
 					<td rowspan='3' width="50%">
@@ -1283,101 +1283,101 @@
 						<table cellspacing="10" width="100%">
 						<tr>
 							<td width="35%">
-								<label id = "ball_detector_value_label_01"> gaussian blur size </label>
+								<label id = "ball_detector_value_label_01" class="old_detect_elem"> gaussian blur size </label>
 							</td>
 							<td width="45%">
-								<div id="ball_detector_slider_01"></div>
+								<div id="ball_detector_slider_01" class="old_detect_elem"></div>
 							</td>
 							<td width="*%">
-								<input type = "text" id = "ball_detector_value_01" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
+								<input type = "text" id = "ball_detector_value_01" class="old_detect_elem" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
 							</td>
 						</tr>
 						<tr>
 							<td >
-								<label id = "ball_detector_value_label_02"> gaussian blur sigma </label>
+								<label id = "ball_detector_value_label_02" class="old_detect_elem"> gaussian blur sigma </label>
 							</td>
 							<td >
-								<div id="ball_detector_slider_02"></div>
+								<div id="ball_detector_slider_02" class="old_detect_elem"></div>
 							</td>
 							<td >
-								<input type = "text" id = "ball_detector_value_02" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
-							</td>
-						</tr>
-						<tr>
-							<td >
-								<label id = "ball_detector_value_label_03"> canny edge threshold </label>
-							</td>
-							<td >
-								<div id="ball_detector_slider_03"></div>
-							</td>
-							<td >
-								<input type = "text" id = "ball_detector_value_03" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
+								<input type = "text" id = "ball_detector_value_02" class="old_detect_elem" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
 							</td>
 						</tr>
 						<tr>
 							<td >
-								<label id = "ball_detector_value_label_04"> hough accum resolution </label>
+								<label id = "ball_detector_value_label_03" class="old_detect_elem"> canny edge threshold </label>
 							</td>
 							<td >
-								<div id="ball_detector_slider_04"></div>
+								<div id="ball_detector_slider_03" class="old_detect_elem"></div>
 							</td>
 							<td >
-								<input type = "text" id = "ball_detector_value_04" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
-							</td>
-						</tr>
-						<tr>
-							<td >
-								<label id = "ball_detector_value_label_05"> min circle distance </label>
-							</td>
-							<td >
-								<div id="ball_detector_slider_05"></div>
-							</td>
-							<td >
-								<input type = "text" id = "ball_detector_value_05" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
+								<input type = "text" id = "ball_detector_value_03" class="old_detect_elem" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
 							</td>
 						</tr>
 						<tr>
 							<td >
-								<label id = "ball_detector_value_label_06"> hough accum threshold </label>
+								<label id = "ball_detector_value_label_04" class="old_detect_elem"> hough accum resolution </label>
 							</td>
 							<td >
-								<div id="ball_detector_slider_06"></div>
+								<div id="ball_detector_slider_04" class="old_detect_elem"></div>
 							</td>
 							<td >
-								<input type = "text" id = "ball_detector_value_06" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
-							</td>
-						</tr>
-						<tr>
-							<td >
-								<label id = "ball_detector_value_label_07"> min radius </label>
-							</td>
-							<td >
-								<div id="ball_detector_slider_07"></div>
-							</td>
-							<td >
-								<input type = "text" id = "ball_detector_value_07" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
+								<input type = "text" id = "ball_detector_value_04" class="old_detect_elem" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
 							</td>
 						</tr>
 						<tr>
 							<td >
-								<label id = "ball_detector_value_label_08"> max radius </label>
+								<label id = "ball_detector_value_label_05" class="old_detect_elem"> min circle distance </label>
 							</td>
 							<td >
-								<div id="ball_detector_slider_08"></div>
+								<div id="ball_detector_slider_05" class="old_detect_elem"></div>
 							</td>
 							<td >
-								<input type = "text" id = "ball_detector_value_08" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
+								<input type = "text" id = "ball_detector_value_05" class="old_detect_elem" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
 							</td>
 						</tr>
 						<tr>
 							<td >
-								<label id = "ball_detector_value_label_09"> ellipse size </label>
+								<label id = "ball_detector_value_label_06" class="old_detect_elem"> hough accum threshold </label>
 							</td>
 							<td >
-								<div id="ball_detector_slider_09"></div>
+								<div id="ball_detector_slider_06" class="old_detect_elem"></div>
 							</td>
 							<td >
-								<input type = "text" id = "ball_detector_value_09" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
+								<input type = "text" id = "ball_detector_value_06" class="old_detect_elem" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
+							</td>
+						</tr>
+						<tr>
+							<td >
+								<label id = "ball_detector_value_label_07" class="old_detect_elem"> min radius </label>
+							</td>
+							<td >
+								<div id="ball_detector_slider_07" class="old_detect_elem"></div>
+							</td>
+							<td >
+								<input type = "text" id = "ball_detector_value_07" class="old_detect_elem" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
+							</td>
+						</tr>
+						<tr>
+							<td >
+								<label id = "ball_detector_value_label_08" class="old_detect_elem"> max radius </label>
+							</td>
+							<td >
+								<div id="ball_detector_slider_08" class="old_detect_elem"></div>
+							</td>
+							<td >
+								<input type = "text" id = "ball_detector_value_08" class="old_detect_elem" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
+							</td>
+						</tr>
+						<tr>
+							<td >
+								<label id = "ball_detector_value_label_09" class="old_detect_elem"> ellipse size </label>
+							</td>
+							<td >
+								<div id="ball_detector_slider_09" class="old_detect_elem"></div>
+							</td>
+							<td >
+								<input type = "text" id = "ball_detector_value_09" class="old_detect_elem" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
 							</td>
 						</tr>
 						</table>
@@ -1388,68 +1388,68 @@
 						<table cellspacing="10" width="100%">
 						<tr>
 							<td width="35%">
-								<label id = "ball_detector_color_filter_value_label_01"> Hue min </label>
+								<label id = "ball_detector_color_filter_value_label_01" class="old_detect_elem"> Hue min </label>
 							</td>
 							<td width="45%">
-								<div id="ball_detector_color_filter_slider_01"></div>
+								<div id="ball_detector_color_filter_slider_01" class="old_detect_elem"></div>
 							</td>
 							<td width="*">
-								<input type = "text" id = "ball_detector_color_filter_value_01" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
+								<input type = "text" id = "ball_detector_color_filter_value_01" class="old_detect_elem" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
 							</td>
 						</tr>
 						<tr>
 							<td >
-								<label id = "ball_detector_color_filter_value_label_02"> Hue max </label>
+								<label id = "ball_detector_color_filter_value_label_02" class="old_detect_elem"> Hue max </label>
 							</td>
 							<td >
-								<div id="ball_detector_color_filter_slider_02"></div>
+								<div id="ball_detector_color_filter_slider_02" class="old_detect_elem"></div>
 							</td>
 							<td >
-								<input type = "text" id = "ball_detector_color_filter_value_02" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
-							</td>
-						</tr>
-						<tr>
-							<td >
-								<label id = "ball_detector_color_filter_value_label_03"> Saturation min </label>
-							</td>
-							<td >
-								<div id="ball_detector_color_filter_slider_03"></div>
-							</td>
-							<td >
-								<input type = "text" id = "ball_detector_color_filter_value_03" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
+								<input type = "text" id = "ball_detector_color_filter_value_02" class="old_detect_elem" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
 							</td>
 						</tr>
 						<tr>
 							<td >
-								<label id = "ball_detector_color_filter_value_label_04"> Saturation max </label>
+								<label id = "ball_detector_color_filter_value_label_03" class="old_detect_elem"> Saturation min </label>
 							</td>
 							<td >
-								<div id="ball_detector_color_filter_slider_04"></div>
+								<div id="ball_detector_color_filter_slider_03" class="old_detect_elem"></div>
 							</td>
 							<td >
-								<input type = "text" id = "ball_detector_color_filter_value_04" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
-							</td>
-						</tr>
-						<tr>
-							<td >
-								<label id = "ball_detector_color_filter_value_label_05"> Value min </label>
-							</td>
-							<td >
-								<div id="ball_detector_color_filter_slider_05"></div>
-							</td>
-							<td >
-								<input type = "text" id = "ball_detector_color_filter_value_05" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
+								<input type = "text" id = "ball_detector_color_filter_value_03" class="old_detect_elem" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
 							</td>
 						</tr>
 						<tr>
 							<td >
-								<label id = "ball_detector_color_filter_value_label_06"> Value max </label>
+								<label id = "ball_detector_color_filter_value_label_04" class="old_detect_elem"> Saturation max </label>
 							</td>
 							<td >
-								<div id="ball_detector_color_filter_slider_06"></div>
+								<div id="ball_detector_color_filter_slider_04" class="old_detect_elem"></div>
 							</td>
 							<td >
-								<input type = "text" id = "ball_detector_color_filter_value_06" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
+								<input type = "text" id = "ball_detector_color_filter_value_04" class="old_detect_elem" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
+							</td>
+						</tr>
+						<tr>
+							<td >
+								<label id = "ball_detector_color_filter_value_label_05" class="old_detect_elem"> Value min </label>
+							</td>
+							<td >
+								<div id="ball_detector_color_filter_slider_05" class="old_detect_elem"></div>
+							</td>
+							<td >
+								<input type = "text" id = "ball_detector_color_filter_value_05" class="old_detect_elem" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
+							</td>
+						</tr>
+						<tr>
+							<td >
+								<label id = "ball_detector_color_filter_value_label_06" class="old_detect_elem"> Value max </label>
+							</td>
+							<td >
+								<div id="ball_detector_color_filter_slider_06" class="old_detect_elem"></div>
+							</td>
+							<td >
+								<input type = "text" id = "ball_detector_color_filter_value_06" class="old_detect_elem" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
 							</td>
 						</tr>
 						</table>
