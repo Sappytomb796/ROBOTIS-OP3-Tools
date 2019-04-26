@@ -355,18 +355,22 @@
 		}
 
 		var detector_header = document.getElementById("detector_header");
-		var old_detect_elems = document.querySelector("old_detect_elem");
+		var old_detect_elems = document.getElementsByClassName("old_detect_elem");
 
 
 		function switchDetection() {
 			var status = callServiceSwitchDetection();
 			if (status === "Improved detection loaded.") {
 				detector_header.innerHTML = "Ball Detector - Improved Detection Loaded";
-				old_detect_elems.display = "none";
+				for (var i in old_detect_elems) {
+					old_detect_elems[i].display = "none";
+				}
 			}
 			else if (status === "Improved detection unloaded.") {
 				detector_header.innerHTML = "Ball Detector";
-				old_detect_elems.display = "block";
+				for (var i in old_detect_elems) {
+					old_detect_elems[i].display = "block";
+				}
 			}
 			else {
 				console.log("Unknown error; neither loaded nor unloaded return for switch detection callback.");
