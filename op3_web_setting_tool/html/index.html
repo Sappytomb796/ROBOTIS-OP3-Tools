@@ -217,15 +217,33 @@
 		var startReplay = new ROSLIB.Topic({
 			ros: ros,
 			name: '/robotis/replay/',
-			messageType: 'std_msgs/String'
+			messageType: 'std_msgs/MultiArrayDimension'
 		});
 
 		function publishStartReplay() {
 			var message = new ROSLIB.Message({
-				data: "start"
+				label: "",
+				size: 1,
+				stride: 0
 			});
 			startReplay.publish(message);
 			console.log('publish Start Replay');
+		}
+
+		function publishReplayFilename(replay_filename, code) {
+			var message = new ROSLIB.Message({
+				label: replay_filename,
+				size: code,
+				stride: 0
+			});
+			startReplay.publish(message);
+			console.log('publish Replay Filename');
+		}
+
+		function change() {
+    		var elem = document.getElementById("replayStart");
+    		if (elem.value=="start") elem.value = "stop";
+   			else elem.value = "start";
 		}
 		
 		// ==================================================================
@@ -421,6 +439,8 @@
 		}
 
 		function id(e){return document.getElementById(e)}
+
+
 		
 		// ==================================================================
 		// UI - Tab
@@ -1242,6 +1262,15 @@
 			}
 			publishActionIndex(Number(action_index));
 		}
+		function send_replay_filename(code) {
+			var replay_filename = $("#replay_filename").val();
+			if(replay_filename == "")
+			{
+				console.log('filename is not defined');
+				return;
+			}
+			publishReplayFilename(replay_filename, code);
+		}
 		
 	</script>
 </head>
@@ -1659,7 +1688,14 @@
 		<div id="tab-6" class="tab-content">
 			<h4>Replay</h4>
 			
-			<button type="button" class="action_button" onclick="send_start_message()" > Start </button>
+			<button type="button" id="replayStart" class="action_button" onclick="send_start_message(); change()" > Start </button>
+			<br><br>
+			<label for = "replay_filename" style="border: 0; color: # f6931f; font-style: italic; font-size: small"> Replay Filename : </label>
+			<input type = "text" id = "replay_filename" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
+			<button type="button" onclick="send_replay_filename(2)"> Load </button>
+			<button type="button" onclick="send_replay_filename(3)"> Save </button>
+			<button type="button" onclick="send_replay_filename(4)"> Play </button>
+			<button type="button" onclick="send_replay_filename(5)"> Delete </button>
 			<br><br>
 		</div>
 	</div>	
