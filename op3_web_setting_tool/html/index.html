@@ -214,36 +214,26 @@
 			console.log('publish Action Index : ' + action_index);
 		}
 
-		var startReplay = new ROSLIB.Topic({
+		var replayMessage = new ROSLIB.Topic({
 			ros: ros,
-			name: '/robotis/replay/',
+			name: '/robotis/replay/web',
 			messageType: 'std_msgs/MultiArrayDimension'
 		});
 
-		function publishStartReplay() {
-			var message = new ROSLIB.Message({
-				label: "",
-				size: 1,
-				stride: 0
-			});
-			startReplay.publish(message);
-			console.log('publish Start Replay');
-		}
-
-		function publishReplayFilename(replay_filename, code) {
+		function publishReplayMessage(code, replay_filename) {
 			var message = new ROSLIB.Message({
 				label: replay_filename,
 				size: code,
 				stride: 0
 			});
-			startReplay.publish(message);
-			console.log('publish Replay Filename');
+			replayMessage.publish(message);
+			console.log('publish Replay Message');
 		}
 
-		function change() {
-    		var elem = document.getElementById("replayStart");
-    		if (elem.value=="start") elem.value = "stop";
-   			else elem.value = "start";
+		function change_start_text() {
+    		var elem = window.document.getElementById("replayStart");
+    		if (elem.innerHTML == "Start") elem.innerHTML = "Stop";
+   			else elem.innerHTML = "Start";
 		}
 		
 		// ==================================================================
@@ -299,7 +289,17 @@
 			refresh_camera_parameters();
 		});
 		
-		
+		var replay_status_listener = new ROSLIB.Topic({
+			ros: ros,
+			name: '/robotis/replay/status',
+			messageType: 'std_msgs/String'
+		});
+
+		replay_status_listener.subscribe(function (message) {
+			var elem = window.document.getElementById("replay_log");
+			elem.innerHTML = message.data;
+		});
+
 		// ==================================================================
 		// Calling the service
 		// ==================================================================
@@ -1262,14 +1262,23 @@
 			}
 			publishActionIndex(Number(action_index));
 		}
-		function send_replay_filename(code) {
+		function send_replay_message(code) {
 			var replay_filename = $("#replay_filename").val();
-			if(replay_filename == "")
+			var elem = document.getElementById("replay_log");
+
+			//Filenames not required for start(0) or play(4) codes
+			if(((code != 1) && (code != 4)) && (replay_filename == ""))
 			{
 				console.log('filename is not defined');
+				elem.innerHTML = "Please provide a filename.";
 				return;
 			}
-			publishReplayFilename(replay_filename, code);
+			
+			//Swap start button text
+			if(code == 1) change_start_text();
+
+			elem.innerHTML = "";
+			publishReplayMessage(code, replay_filename);
 		}
 		
 	</script>
@@ -1688,15 +1697,16 @@
 		<div id="tab-6" class="tab-content">
 			<h4>Replay</h4>
 			
-			<button type="button" id="replayStart" class="action_button" onclick="send_start_message(); change()" > Start </button>
+			<button type="button" id="replayStart" class="action_button" onclick="send_replay_message(1)" > Start </button>
 			<br><br>
-			<label for = "replay_filename" style="border: 0; color: # f6931f; font-style: italic; font-size: small"> Replay Filename : </label>
+			<label for = "replay_filename" style="border: 0; color: # f6931f; font-style: italic; font-size: small"> Replay Filename: </label>
 			<input type = "text" id = "replay_filename" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
-			<button type="button" onclick="send_replay_filename(2)"> Load </button>
-			<button type="button" onclick="send_replay_filename(3)"> Save </button>
-			<button type="button" onclick="send_replay_filename(4)"> Play </button>
-			<button type="button" onclick="send_replay_filename(5)"> Delete </button>
+			<button type="button" onclick="send_replay_message(2)"> Load </button>
+			<button type="button" onclick="send_replay_message(3)"> Save </button>
+			<button type="button" onclick="send_replay_message(4)"> Play </button>
+			<button type="button" onclick="send_replay_message(5)"> Delete </button>
 			<br><br>
+			<p id="replay_log"></p>
 		</div>
 	</div>	
 </body>
