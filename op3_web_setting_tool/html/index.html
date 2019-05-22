@@ -358,7 +358,7 @@
 		var old_detect_elems;
 
 
-		function updateDetectionHTML() {
+		function updateDetectionHTML(status) {
 			if (status === "Improved detection loaded.") {
 				detector_header.innerHTML = "Ball Detector - Improved Detection Loaded";
 				for (var i in old_detect_elems) {
