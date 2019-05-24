@@ -358,17 +358,21 @@
 		var old_detect_elems;
 
 
-		function updateDetectionHTML() {
+		function updateDetectionHTML(status) {
 			if (status === "Improved detection loaded.") {
 				detector_header.innerHTML = "Ball Detector - Improved Detection Loaded";
 				for (var i in old_detect_elems) {
-					old_detect_elems[i].style.display = "none";
+					if ("style" in old_detect_elems[i]) {
+						old_detect_elems[i].style.display = "none";
+					}
 				}
 			}
 			else if (status === "Improved detection unloaded.") {
 				detector_header.innerHTML = "Ball Detector";
 				for (var i in old_detect_elems) {
-					old_detect_elems[i].style.display = "inline";
+					if ("style" in old_detect_elems[i]) {
+						old_detect_elems[i].style.display = "block";
+					}
 				}
 			}
 			else {
@@ -1492,7 +1496,7 @@
 								</td>
 								<td>							
 									<button type="button" onclick="send_ball_detector_reset()"> Reset parameters </button>
-									<button type="button" onclick="switchDetection()">Load Improved Detection</button>
+									<button type="button" onclick="switchDetection()">Toggle Improved Detection</button>
 								</td>
 							</tr>
 						</table>
