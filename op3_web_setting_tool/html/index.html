@@ -229,34 +229,6 @@
 			replayMessage.publish(message);
 			console.log('publish Replay Message');
 		}
-
-		function change_start_text() {
-    		var elem = window.document.getElementById("replayStart");
-    		if (elem.innerHTML == "Start") elem.innerHTML = "Stop";
-   			else elem.innerHTML = "Start";
-		}
-		
-		var replayMessage = new ROSLIB.Topic({
-			ros: ros,
-			name: '/robotis/replay/web',
-			messageType: 'std_msgs/MultiArrayDimension'
-		});
-
-		function publishReplayMessage(code, replay_filename) {
-			var message = new ROSLIB.Message({
-				label: replay_filename,
-				size: code,
-				stride: 0
-			});
-			replayMessage.publish(message);
-			console.log('publish Replay Message');
-		}
-
-		function change_start_text() {
-    		var elem = window.document.getElementById("replayStart");
-    		if (elem.innerHTML == "Start") elem.innerHTML = "Stop";
-   			else elem.innerHTML = "Start";
-		}
 		
 		// ==================================================================
 		// Subscribing to a Topic
@@ -1782,20 +1754,6 @@
 					<td width="100%">
 						<table cellspacing="10" width="100%">
 						<tr>
-		<div id="tab-6" class="tab-content">
-			<h4>Replay</h4>
-			
-			<button type="button" id="replayStart" class="action_button" onclick="send_replay_message(1)" > Start </button>
-			<br><br>
-			<label for = "replay_filename" style="border: 0; color: # f6931f; font-style: italic; font-size: small"> Replay Filename: </label>
-			<input type = "text" id = "replay_filename" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
-			<button type="button" onclick="send_replay_message(2)"> Load </button>
-			<button type="button" onclick="send_replay_message(3)"> Save </button>
-			<button type="button" onclick="send_replay_message(4)"> Play </button>
-			<button type="button" onclick="send_replay_message(5)"> Delete </button>
-			<br><br>
-			<p id="replay_log"></p>
-		</div>
 							<td width="50%">							
 									<button type="button" onclick="send_camera_command('reset')"> Reset parameters </button>
 							</td>
