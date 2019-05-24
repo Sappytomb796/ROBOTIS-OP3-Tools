@@ -403,6 +403,46 @@
 			callServiceSaveImage(nameParam);
 		}
 		
+		// Ball detector detection switching
+		var switchDetectionClient = new ROSLIB.Service({
+		  ros : ros,
+		  name : 'ball_detector_node/switch_detection',
+		  serviceType : 'ball_detector/SwitchDetection'
+		});
+		function callServiceSwitchDetection() {
+			var request = new ROSLIB.ServiceRequest();
+			switchDetectionClient.callService(request, function(result){
+				console.log('Result of service call : switch_detection: ' + result.returns);
+				updateDetectionHTML(result.returns);
+			});
+		}
+		var detector_header;
+		var old_detect_elems;
+		function updateDetectionHTML(status) {
+			if (status === "Improved detection loaded.") {
+				detector_header.innerHTML = "Ball Detector - Improved Detection Loaded";
+				for (var i in old_detect_elems) {
+					if ("style" in old_detect_elems[i]) {
+						old_detect_elems[i].style.display = "none";
+					}
+				}
+			}
+			else if (status === "Improved detection unloaded.") {
+				detector_header.innerHTML = "Ball Detector";
+				for (var i in old_detect_elems) {
+					if ("style" in old_detect_elems[i]) {
+						old_detect_elems[i].style.display = "block";
+					}
+				}
+			}
+			else {
+				console.log("Unknown error; neither loaded nor unloaded return for switch detection callback.");
+			}
+		}
+		function switchDetection() {
+			callServiceSwitchDetection();
+		}
+
 		// camera		
 		var setCameraParamClient = new ROSLIB.Service({
 		 ros : ros,
