@@ -230,6 +230,11 @@
 			console.log('publish Replay Message');
 		}
 		
+		function change_start_text() {
+    		var elem = window.document.getElementById("replayStart");
+    		if (elem.innerHTML == "Start") elem.innerHTML = "Stop";
+   			else elem.innerHTML = "Start";
+		}
 		// ==================================================================
 		// Subscribing to a Topic
 		// ==================================================================
