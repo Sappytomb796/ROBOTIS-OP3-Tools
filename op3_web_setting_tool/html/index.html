@@ -260,23 +260,11 @@
 				refresh_ball_detector_parameters();
 				console.log('ball detector parameter is refreshed.');
 		});
-
-		var replay_status_listener = new ROSLIB.Topic({
-			ros: ros,
-			name: '/robotis/replay/status',
-			messageType: 'std_msgs/String'
-		});
-
-		replay_status_listener.subscribe(function (message) {
-			var elem = window.document.getElementById("replay_log");
-			elem.innerHTML = message.data;
-		});
-
+		var camera_param_listener = new ROSLIB.Topic({
 			ros: ros,
 			name: '/op3_camera/camera_params',
 			messageType: 'op3_camera_setting_tool/CameraParams'
 		});
-
 		camera_param_listener.subscribe(function (message) {
 			camera_parameters.brightness						= message.brightness;
 			camera_parameters.contrast							= message.contrast;
@@ -298,11 +286,10 @@
 			name: '/robotis/replay/status',
 			messageType: 'std_msgs/String'
 		});
-
 		replay_status_listener.subscribe(function (message) {
 			var elem = window.document.getElementById("replay_log");
 			elem.innerHTML = message.data;
-		});
+		});	
 
 		// ==================================================================
 		// Calling the service
@@ -1311,19 +1298,6 @@
 		function send_replay_message(code) {
 			var replay_filename = $("#replay_filename").val();
 			var elem = document.getElementById("replay_log");
-
-			//Filenames not required for start(0) or play(4) codes
-			if(((code != 1) && (code != 4)) && (replay_filename == ""))
-			{
-				console.log('filename is not defined');
-				elem.innerHTML = "Please provide a filename.";
-				return;
-			}
-			
-		function send_replay_message(code) {
-			var replay_filename = $("#replay_filename").val();
-			var elem = document.getElementById("replay_log");
-
 			//Filenames not required for start(0) or play(4) codes
 			if(((code != 1) && (code != 4)) && (replay_filename == ""))
 			{
@@ -1334,13 +1308,6 @@
 			
 			//Swap start button text
 			if(code == 1) change_start_text();
-
-			elem.innerHTML = "";
-			publishReplayMessage(code, replay_filename);
-		}
-		
-			if(code == 1) change_start_text();
-
 			elem.innerHTML = "";
 			publishReplayMessage(code, replay_filename);
 		}
@@ -1352,8 +1319,6 @@
 	<h1>ROBOTIS OP3 parameter setting</h1>
 
 	<div class="container">
-
-			<li class="tab-link" data-tab="tab-6">Replay</li>
 		<ul class="tabs">
 			<li class="tab-link current" data-tab="tab-1">Demo</li>
 			<li class="tab-link" data-tab="tab-2">Soccer</li>
