@@ -236,6 +236,28 @@
    			else elem.innerHTML = "Start";
 		}
 		
+		var replayMessage = new ROSLIB.Topic({
+			ros: ros,
+			name: '/robotis/replay/web',
+			messageType: 'std_msgs/MultiArrayDimension'
+		});
+
+		function publishReplayMessage(code, replay_filename) {
+			var message = new ROSLIB.Message({
+				label: replay_filename,
+				size: code,
+				stride: 0
+			});
+			replayMessage.publish(message);
+			console.log('publish Replay Message');
+		}
+
+		function change_start_text() {
+    		var elem = window.document.getElementById("replayStart");
+    		if (elem.innerHTML == "Start") elem.innerHTML = "Stop";
+   			else elem.innerHTML = "Start";
+		}
+		
 		// ==================================================================
 		// Subscribing to a Topic
 		// ==================================================================
@@ -267,7 +289,17 @@
 				console.log('ball detector parameter is refreshed.');
 		});
 
-		var camera_param_listener = new ROSLIB.Topic({
+		var replay_status_listener = new ROSLIB.Topic({
+			ros: ros,
+			name: '/robotis/replay/status',
+			messageType: 'std_msgs/String'
+		});
+
+		replay_status_listener.subscribe(function (message) {
+			var elem = window.document.getElementById("replay_log");
+			elem.innerHTML = message.data;
+		});
+
 			ros: ros,
 			name: '/op3_camera/camera_params',
 			messageType: 'op3_camera_setting_tool/CameraParams'
@@ -437,8 +469,7 @@
 			console.log('send demo command : ' + value);
 			publishDemoCommand(value);
 		}
-
-		function id(e){return document.getElementById(e)}
+			
 
 
 		
@@ -454,6 +485,8 @@
 				var old_id = $('.tab-content').attr('id');
 				disable_image(old_id);
 
+
+		
 				$(this).addClass('current');
 				$("#"+tab_id).addClass('current');				
 				handle_tab(tab_id);
@@ -1274,7 +1307,25 @@
 				return;
 			}
 			
+		function send_replay_message(code) {
+			var replay_filename = $("#replay_filename").val();
+			var elem = document.getElementById("replay_log");
+
+			//Filenames not required for start(0) or play(4) codes
+			if(((code != 1) && (code != 4)) && (replay_filename == ""))
+			{
+				console.log('filename is not defined');
+				elem.innerHTML = "Please provide a filename.";
+				return;
+			}
+			
 			//Swap start button text
+			if(code == 1) change_start_text();
+
+			elem.innerHTML = "";
+			publishReplayMessage(code, replay_filename);
+		}
+		
 			if(code == 1) change_start_text();
 
 			elem.innerHTML = "";
@@ -1289,6 +1340,7 @@
 
 	<div class="container">
 
+			<li class="tab-link" data-tab="tab-6">Replay</li>
 		<ul class="tabs">
 			<li class="tab-link current" data-tab="tab-1">Demo</li>
 			<li class="tab-link" data-tab="tab-2">Soccer</li>
@@ -1304,7 +1356,7 @@
 			<button type="button" class="action_button" onclick="change_mode('soccer')"> Soccer </button>
 			<button type="button" class="action_button" onclick="change_mode('action')"> Action </button>
 			<button type="button" class="action_button" onclick="change_mode('vision')"> Vision </button>
-
+			<h4>Ball detector</h4>
 			<h4 id="command_text">Demo Command</h4>
 			<button type="button" class="action_button" onclick="send_demo_command('start')"> Start </button>
 			<button type="button" class="action_button" onclick="send_demo_command('stop')"> Stop </button>
@@ -1314,101 +1366,101 @@
 			<h4>Ball detector</h4>
 			<table border='1'>
 				<tr>
-					<td rowspan='3' width="50%">
+								<label id = "ball_detector_value_label_01"> gaussian blur size </label>
 						<img id="tab-2-image" src="" width="100%">
 					</td>
-					<td width="50%">
+								<div id="ball_detector_slider_01"></div>
 						<table cellspacing="10" width="100%">
 						<tr>
-							<td width="35%">
+								<input type = "text" id = "ball_detector_value_01" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
 								<label id = "ball_detector_value_label_01"> gaussian blur size </label>
 							</td>
 							<td width="45%">
 								<div id="ball_detector_slider_01"></div>
-							</td>
+								<label id = "ball_detector_value_label_02"> gaussian blur sigma </label>
 							<td width="*%">
 								<input type = "text" id = "ball_detector_value_01" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
-							</td>
+								<div id="ball_detector_slider_02"></div>
 						</tr>
 						<tr>
-							<td >
+								<input type = "text" id = "ball_detector_value_02" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
 								<label id = "ball_detector_value_label_02"> gaussian blur sigma </label>
 							</td>
 							<td >
 								<div id="ball_detector_slider_02"></div>
-							</td>
+								<label id = "ball_detector_value_label_03"> canny edge threshold </label>
 							<td >
 								<input type = "text" id = "ball_detector_value_02" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
-							</td>
+								<div id="ball_detector_slider_03"></div>
 						</tr>
 						<tr>
-							<td >
+								<input type = "text" id = "ball_detector_value_03" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
 								<label id = "ball_detector_value_label_03"> canny edge threshold </label>
 							</td>
 							<td >
 								<div id="ball_detector_slider_03"></div>
-							</td>
+								<label id = "ball_detector_value_label_04"> hough accum resolution </label>
 							<td >
 								<input type = "text" id = "ball_detector_value_03" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
-							</td>
+								<div id="ball_detector_slider_04"></div>
 						</tr>
 						<tr>
-							<td >
+								<input type = "text" id = "ball_detector_value_04" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
 								<label id = "ball_detector_value_label_04"> hough accum resolution </label>
 							</td>
 							<td >
 								<div id="ball_detector_slider_04"></div>
-							</td>
+								<label id = "ball_detector_value_label_05"> min circle distance </label>
 							<td >
 								<input type = "text" id = "ball_detector_value_04" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
-							</td>
+								<div id="ball_detector_slider_05"></div>
 						</tr>
 						<tr>
-							<td >
+								<input type = "text" id = "ball_detector_value_05" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
 								<label id = "ball_detector_value_label_05"> min circle distance </label>
 							</td>
 							<td >
 								<div id="ball_detector_slider_05"></div>
-							</td>
+								<label id = "ball_detector_value_label_06"> hough accum threshold </label>
 							<td >
 								<input type = "text" id = "ball_detector_value_05" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
-							</td>
+								<div id="ball_detector_slider_06"></div>
 						</tr>
 						<tr>
-							<td >
+								<input type = "text" id = "ball_detector_value_06" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
 								<label id = "ball_detector_value_label_06"> hough accum threshold </label>
 							</td>
 							<td >
 								<div id="ball_detector_slider_06"></div>
-							</td>
+								<label id = "ball_detector_value_label_07"> min radius </label>
 							<td >
 								<input type = "text" id = "ball_detector_value_06" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
-							</td>
+								<div id="ball_detector_slider_07"></div>
 						</tr>
 						<tr>
-							<td >
+								<input type = "text" id = "ball_detector_value_07" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
 								<label id = "ball_detector_value_label_07"> min radius </label>
 							</td>
 							<td >
 								<div id="ball_detector_slider_07"></div>
-							</td>
+								<label id = "ball_detector_value_label_08"> max radius </label>
 							<td >
 								<input type = "text" id = "ball_detector_value_07" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
-							</td>
+								<div id="ball_detector_slider_08"></div>
 						</tr>
 						<tr>
-							<td >
+								<input type = "text" id = "ball_detector_value_08" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
 								<label id = "ball_detector_value_label_08"> max radius </label>
 							</td>
 							<td >
 								<div id="ball_detector_slider_08"></div>
-							</td>
+								<label id = "ball_detector_value_label_09"> ellipse size </label>
 							<td >
 								<input type = "text" id = "ball_detector_value_08" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
-							</td>
+								<div id="ball_detector_slider_09"></div>
 						</tr>
 						<tr>
-							<td >
+								<input type = "text" id = "ball_detector_value_09" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
 								<label id = "ball_detector_value_label_09"> ellipse size </label>
 							</td>
 							<td >
@@ -1419,65 +1471,65 @@
 							</td>
 						</tr>
 						</table>
-					</td>
+								<label id = "ball_detector_color_filter_value_label_01"> Hue min </label>
 				</tr>
 				<tr>
-					<td width="50%">
+								<div id="ball_detector_color_filter_slider_01"></div>
 						<table cellspacing="10" width="100%">
 						<tr>
-							<td width="35%">
+								<input type = "text" id = "ball_detector_color_filter_value_01" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
 								<label id = "ball_detector_color_filter_value_label_01"> Hue min </label>
 							</td>
 							<td width="45%">
 								<div id="ball_detector_color_filter_slider_01"></div>
-							</td>
+								<label id = "ball_detector_color_filter_value_label_02"> Hue max </label>
 							<td width="*">
 								<input type = "text" id = "ball_detector_color_filter_value_01" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
-							</td>
+								<div id="ball_detector_color_filter_slider_02"></div>
 						</tr>
 						<tr>
-							<td >
+								<input type = "text" id = "ball_detector_color_filter_value_02" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
 								<label id = "ball_detector_color_filter_value_label_02"> Hue max </label>
 							</td>
 							<td >
 								<div id="ball_detector_color_filter_slider_02"></div>
-							</td>
+								<label id = "ball_detector_color_filter_value_label_03"> Saturation min </label>
 							<td >
 								<input type = "text" id = "ball_detector_color_filter_value_02" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
-							</td>
+								<div id="ball_detector_color_filter_slider_03"></div>
 						</tr>
 						<tr>
-							<td >
+								<input type = "text" id = "ball_detector_color_filter_value_03" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
 								<label id = "ball_detector_color_filter_value_label_03"> Saturation min </label>
 							</td>
 							<td >
 								<div id="ball_detector_color_filter_slider_03"></div>
-							</td>
+								<label id = "ball_detector_color_filter_value_label_04"> Saturation max </label>
 							<td >
 								<input type = "text" id = "ball_detector_color_filter_value_03" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
-							</td>
+								<div id="ball_detector_color_filter_slider_04"></div>
 						</tr>
 						<tr>
-							<td >
+								<input type = "text" id = "ball_detector_color_filter_value_04" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
 								<label id = "ball_detector_color_filter_value_label_04"> Saturation max </label>
 							</td>
 							<td >
 								<div id="ball_detector_color_filter_slider_04"></div>
-							</td>
+								<label id = "ball_detector_color_filter_value_label_05"> Value min </label>
 							<td >
 								<input type = "text" id = "ball_detector_color_filter_value_04" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
-							</td>
+								<div id="ball_detector_color_filter_slider_05"></div>
 						</tr>
 						<tr>
-							<td >
+								<input type = "text" id = "ball_detector_color_filter_value_05" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
 								<label id = "ball_detector_color_filter_value_label_05"> Value min </label>
 							</td>
 							<td >
 								<div id="ball_detector_color_filter_slider_05"></div>
-							</td>
+								<label id = "ball_detector_color_filter_value_label_06"> Value max </label>
 							<td >
 								<input type = "text" id = "ball_detector_color_filter_value_05" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
-							</td>
+								<div id="ball_detector_color_filter_slider_06"></div>
 						</tr>
 						<tr>
 							<td >
@@ -1525,6 +1577,9 @@
 			<button type="button" class="action_button" onclick="send_playing_index_action(15)" > Sit Down </button>
 			<button type="button" class="action_button" onclick="send_playing_index_action(1)" > Stand Up </button>
 			<button type="button" class="action_button" onclick="send_playing_index_action(4)" > Thank you </button>
+			<button type="button" class="action_button" onclick="send_playing_index_action(31)"> Dab </button>
+			<button type="button" class="action_button" onclick="send_playing_index_action(32)"> Floss </button>
+			<br><br>
 			<br><br>
 			<button type="button" class="action_button" onclick="send_playing_index_action(122)"> Get up(Front) </button>
 			<button type="button" class="action_button" onclick="send_playing_index_action(123)"> Get up(Back) </button>
@@ -1685,11 +1740,23 @@
 					<td width="100%">
 						<table cellspacing="10" width="100%">
 						<tr>
+		<div id="tab-6" class="tab-content">
+			<h4>Replay</h4>
+			
+			<button type="button" id="replayStart" class="action_button" onclick="send_replay_message(1)" > Start </button>
+			<br><br>
+			<label for = "replay_filename" style="border: 0; color: # f6931f; font-style: italic; font-size: small"> Replay Filename: </label>
+			<input type = "text" id = "replay_filename" style = "border: 0; color: # f6931f; font-weight: bold;" size="5">
+			<button type="button" onclick="send_replay_message(2)"> Load </button>
+			<button type="button" onclick="send_replay_message(3)"> Save </button>
+			<button type="button" onclick="send_replay_message(4)"> Play </button>
+			<button type="button" onclick="send_replay_message(5)"> Delete </button>
+			<br><br>
+			<p id="replay_log"></p>
+		</div>
 							<td width="50%">							
 									<button type="button" onclick="send_camera_command('reset')"> Reset parameters </button>
 							</td>
-						</tr>
-						</table>
 					</td>
 				</tr>
 			</table>
