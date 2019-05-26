@@ -79,6 +79,8 @@
 
 		// ==================================================================
 		// Variable
+		// ==================================================================
+
 		var server_ip="10.42.0.1";
 		var image_prefix = "http://10.42.0.1:8080/stream?topic=";
 		var image_prefix_2 = ":8080/stream?topic=";
@@ -118,6 +120,7 @@
 		// ==================================================================
 		// Connecting to ROS
 		// ==================================================================
+
 		var full_add = location.href;
 		var add_array = full_add.split("/");
 		console.log("address : " + add_array[2]);
@@ -172,6 +175,7 @@
 			demoCommand.publish(message);
 			console.log('publish Demo Command : ' + demo_command);
 		}
+
 		var paramCommand = new ROSLIB.Topic({
 			ros: ros,
 			name: '/ball_detector_node/param_command',
@@ -235,6 +239,7 @@
     		if (elem.innerHTML == "Start") elem.innerHTML = "Stop";
    			else elem.innerHTML = "Start";
 		}
+
 		// ==================================================================
 		// Subscribing to a Topic
 		// ==================================================================
@@ -265,11 +270,13 @@
 				refresh_ball_detector_parameters();
 				console.log('ball detector parameter is refreshed.');
 		});
+
 		var camera_param_listener = new ROSLIB.Topic({
 			ros: ros,
 			name: '/op3_camera/camera_params',
 			messageType: 'op3_camera_setting_tool/CameraParams'
 		});
+
 		camera_param_listener.subscribe(function (message) {
 			camera_parameters.brightness						= message.brightness;
 			camera_parameters.contrast							= message.contrast;
@@ -291,6 +298,7 @@
 			name: '/robotis/replay/status',
 			messageType: 'std_msgs/String'
 		});
+
 		replay_status_listener.subscribe(function (message) {
 			var elem = window.document.getElementById("replay_log");
 			elem.innerHTML = message.data;
@@ -299,6 +307,7 @@
 		// ==================================================================
 		// Calling the service
 		// ==================================================================
+
 		var setBallDetectorParamClient = new ROSLIB.Service({
 		 ros : ros,
 		 name : '/ball_detector_node/set_param',
@@ -373,6 +382,7 @@
 		  name : 'ball_detector_node/switch_detection',
 		  serviceType : 'ball_detector/SwitchDetection'
 		});
+
 		function callServiceSwitchDetection() {
 			var request = new ROSLIB.ServiceRequest();
 			switchDetectionClient.callService(request, function(result){
@@ -380,8 +390,10 @@
 				updateDetectionHTML(result.returns);
 			});
 		}
+		
 		var detector_header;
 		var old_detect_elems;
+		
 		function updateDetectionHTML(status) {
 			if (status === "Improved detection loaded.") {
 				detector_header.innerHTML = "Ball Detector - Improved Detection Loaded";
@@ -403,6 +415,7 @@
 				console.log("Unknown error; neither loaded nor unloaded return for switch detection callback.");
 			}
 		}
+
 		function switchDetection() {
 			callServiceSwitchDetection();
 		}
@@ -419,7 +432,6 @@
 		 name : '/op3_camera/get_camera_params',
 		 serviceType : 'op3_camera_setting_tool/GetParameters'
 		});
-		
 		
 		function callServiceSetCameraParams(new_params) {
 			var request = new ROSLIB.ServiceRequest({
@@ -475,9 +487,6 @@
 			publishDemoCommand(value);
 		}
 			
-
-
-		
 		// ==================================================================
 		// UI - Tab
 		// ==================================================================
@@ -490,8 +499,6 @@
 				var old_id = $('.tab-content').attr('id');
 				disable_image(old_id);
 
-
-		
 				$(this).addClass('current');
 				$("#"+tab_id).addClass('current');				
 				handle_tab(tab_id);
@@ -532,6 +539,7 @@
 		// ==================================================================
 		// UI - ball detector parameter
 		// ==================================================================
+
 		$( function() {
 			$( "#ball_detector_slider_01" ).slider({
 				value: 7,
@@ -981,6 +989,7 @@
 		// ==================================================================
 		// UI - camera_setting
 		// ==================================================================		
+
 		$( function() {
 			var label_text = id('camera_setting_label_01').innerHTML;
 			label_text = label_text.split(' ').join('')
