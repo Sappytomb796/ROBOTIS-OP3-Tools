@@ -486,7 +486,9 @@
 			console.log('send demo command : ' + value);
 			publishDemoCommand(value);
 		}
-			
+
+		function id(e){return document.getElementById(e)}
+
 		// ==================================================================
 		// UI - Tab
 		// ==================================================================
@@ -1736,6 +1738,8 @@
 							<td width="50%">							
 									<button type="button" onclick="send_camera_command('reset')"> Reset parameters </button>
 							</td>
+						</tr>
+						</table>
 					</td>
 				</tr>
 			</table>
